@@ -1,6 +1,8 @@
 package folder;
 
 
+import static javax.persistence.CascadeType.PERSIST;
+
 import java.io.Serializable;
 import java.lang.Integer;
 import java.lang.String;
@@ -31,7 +33,7 @@ public class urun implements Serializable {
 	@JoinTable( name="EMP_DEPT", 
 	joinColumns= {@JoinColumn(name="urun_id", referencedColumnName ="urun_id")}, 
 	inverseJoinColumns={@JoinColumn(name="sip_id", referencedColumnName ="sip_id")}) 
-	private List <siparis > Siparis =new ArrayList<siparis>();;
+	private List <siparis > Siparis =new ArrayList<siparis>();
 	
 	public List<siparis> getSiparis() {
 		return Siparis;
@@ -65,6 +67,5 @@ public class urun implements Serializable {
 	public void setFiyati(double fiyati) {
 		this.fiyati = fiyati;
 	}   
-	
-   
+
 }

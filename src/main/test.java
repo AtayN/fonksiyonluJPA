@@ -13,6 +13,7 @@ import java.util.Iterator;
 
 import folder.satici;
 import folder.siparis;
+
 import folder.urun;
 
 
@@ -151,8 +152,8 @@ public class test {
 			manager.persist(u2);
 			
 			urun u3 = new urun();
-			u3.setİsmi("at");
-			u3.setFiyati(1.0);
+			u3.setİsmi("çay");
+			u3.setFiyati(1.25);
 			manager.persist(u3);
 		
 			siparis sip1 = new siparis();
@@ -198,6 +199,9 @@ public class test {
 			
 			sip2.getUrun().add(u3);
 			sip2.getUrun().add(u1);
+			
+			//siparis_urun s = new siparis_urun();
+			//manager.persist(s);
 			
 			manager.persist(sat);
 			manager.persist(sat1);

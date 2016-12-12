@@ -75,18 +75,15 @@ public class guiiLogin1 {
 		frame.getContentPane().add(userTextField);
 		userTextField.setColumns(10);
 
-		JLabel userLabel = new JLabel("user name :");
+		JLabel userLabel = new JLabel("Kullanýcý Adý :");
 		userLabel.setBounds(189, 74, 101, 14);
 		frame.getContentPane().add(userLabel);
 
-		JLabel passswordLabel = new JLabel("password  :");
+		JLabel passswordLabel = new JLabel("Þifre   :");
 		passswordLabel.setBounds(189, 105, 101, 14);
 		frame.getContentPane().add(passswordLabel);
 
-		JButton btnNewButton = new JButton("login!");
-		// Image img = new
-		// ImageIcon(this.getClass().getResource("/tick.png")).getImage();
-		// btnNewButton.setIcon(new ImageIcon(img));
+		JButton btnNewButton = new JButton("Giriþ!");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -102,18 +99,16 @@ public class guiiLogin1 {
 
 					List<satici> list = (List<satici>) query.getResultList();
 					siparisGui.tut = list.get(0);
-
-					// satici list = (satici) query.getSingleResult();
-					//
+					islem.tut=list.get(0);
 					if (list.size() == 1) {
 
-						JOptionPane.showMessageDialog(null, "user name or password is correct.");
+						JOptionPane.showMessageDialog(null, "Kullanýcý adý ve þifre doðru.");
 						frame.dispose();
-						siparisGui secondf = new siparisGui();
+						islem secondf = new islem();
 						secondf.setVisible(true);
 
 					} else
-						JOptionPane.showMessageDialog(null, "user name or password is incorrect.");
+						JOptionPane.showMessageDialog(null, "Kullanýcý adý veya  þifre yanlýþ.");
 
 				} catch (Exception e1) {
 
@@ -124,11 +119,8 @@ public class guiiLogin1 {
 		});
 		btnNewButton.setBounds(220, 148, 222, 58);
 		frame.getContentPane().add(btnNewButton);
-
+		
 		JLabel lblNewLabel = new JLabel("");
-		// Image img1 = new
-		// ImageIcon(this.getClass().getResource("/laptop.png")).getImage();
-		// lblNewLabel.setIcon(new ImageIcon(img1));
 		lblNewLabel.setBounds(21, 37, 158, 171);
 		frame.getContentPane().add(lblNewLabel);
 

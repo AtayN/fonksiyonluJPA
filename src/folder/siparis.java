@@ -3,6 +3,8 @@ package folder;
 import java.util.List;
 import java.util.ArrayList;
 
+import static javax.persistence.CascadeType.PERSIST;
+
 import java.io.Serializable;
 import java.lang.String;
 import java.nio.MappedByteBuffer;
@@ -73,7 +75,6 @@ public class siparis implements Serializable {
 
 	private List<urun> Urun = new ArrayList<urun>();
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "Siparis")
 	public List<urun> getUrun() {
 		return Urun;
 	}

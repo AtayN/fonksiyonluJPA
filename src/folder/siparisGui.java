@@ -12,7 +12,6 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.sun.tools.xjc.generator.bean.ImplStructureStrategy.Result;
 
-
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JTextField;
@@ -46,37 +45,32 @@ public class siparisGui extends JFrame {
 	private JTextField textFieldKola;
 	private JTextField textFieldSu;
 	private JTextField textFieldAt;
-	Connection con=null;
-	
+	Connection con = null;
+
 	private JTable table_1;
 
-	
-public  void refreshTable(){
-		
+	public void refreshTable() {
+
 		try {
-			
+
 			String sql = "select * from siparis  ";
-			
+
 			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rs =ps.executeQuery();
-			
-			table_1.setModel(DbUtils.resultSetToTableModel(rs) );
-			
+			ResultSet rs = ps.executeQuery();
+
+			table_1.setModel(DbUtils.resultSetToTableModel(rs));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
-	
+
 	public void sipEkle(siparis ee, urun a1, int adet)
 
 	{
-
 		a1.getSiparis().add(ee);
-
 		manager.merge(a1);
-
 	}
 
 	/**
@@ -99,7 +93,8 @@ public  void refreshTable(){
 	 * Create the frame.
 	 */
 	public siparisGui() {
-		con=connectionss.Jdbc();
+		con = connectionss.Jdbc();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 604, 341);
 		contentPane = new JPanel();
@@ -116,19 +111,19 @@ public  void refreshTable(){
 		lblMsteriAd.setBounds(35, 45, 86, 14);
 		contentPane.add(lblMsteriAd);
 
-		JCheckBox kola = new JCheckBox("kola");
-		kola.addActionListener(new ActionListener() {
+		JCheckBox urun1 = new JCheckBox("kola");
+		urun1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textFieldKola.enable();
-				if (!kola.isSelected()) {
+				if (!urun1.isSelected()) {
 					textFieldKola.disable();
 					textFieldKola.setText(null);
 				}
 			}
 		});
-		kola.setBounds(35, 106, 59, 23);
-		contentPane.add(kola);
-		kola.setName("kola");
+		urun1.setBounds(35, 106, 59, 23);
+		contentPane.add(urun1);
+		urun1.setName("kola");
 
 		JCheckBox urun2 = new JCheckBox("su");
 		urun2.addActionListener(new ActionListener() {
@@ -145,7 +140,7 @@ public  void refreshTable(){
 		contentPane.add(urun2);
 		urun2.setName("su");
 
-		JCheckBox urun3 = new JCheckBox("at");
+		JCheckBox urun3 = new JCheckBox("çay");
 		urun3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldAt.enable();
@@ -158,11 +153,12 @@ public  void refreshTable(){
 		});
 		urun3.setBounds(35, 163, 59, 23);
 		contentPane.add(urun3);
-		urun3.setName("at");
+		urun3.setName("çay");
 
 		JButton btnNewButton = new JButton("Siparis Ekle");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				refreshTable();
 
 				try {
 					factory = Persistence.createEntityManagerFactory("fonksiyonluJPA");
@@ -172,7 +168,7 @@ public  void refreshTable(){
 
 					urun a1;
 
-					Query query = manager.createQuery("SELECT u FROM urun u where u.ismi='" + kola.getName() + "'");
+					Query query = manager.createQuery("SELECT u FROM urun u where u.ismi='" + urun1.getName() + "'");
 					a1 = (urun) query.getSingleResult();
 
 					urun a2;
@@ -186,79 +182,37 @@ public  void refreshTable(){
 					siparis sip = new siparis();
 
 					double toplam = 0;
-					if (kola.isSelected()) {
-
-						// for(int i=0;i<
-						// Integer.valueOf(textFieldKola.getText());i++)
-						// {
-
+					if (urun1.isSelected()) {
 						sipEkle(sip, a1, Integer.valueOf(textFieldKola.getText()));
-
-						// }
 						toplam += Integer.valueOf(textFieldKola.getText()) * a1.getFiyati();
-						/*
-						 * a1.getSiparis().add(sip);
-						 * a1.setAdet(Integer.valueOf(textFieldKola.getText()));
-						 * manager.merge(a1);
-						 */
-
 					}
 
 					if (urun2.isSelected()) {
-						/*
-						 * a2.getSiparis().add(sip);
-						 * a2.setAdet(Integer.valueOf(textFieldSu.getText()));
-						 * manager.merge(a2);
-						 */
 						sipEkle(sip, a2, Integer.valueOf(textFieldSu.getText()));
 						toplam += Integer.valueOf(textFieldSu.getText()) * a2.getFiyati();
-						// sipEkle( sip, a2);
 					}
 
 					if (urun3.isSelected()) {
-
-						/*
-						 * a3.getSiparis().add(sip);
-						 * a3.setAdet(Integer.valueOf(textFieldKola.getText()));
-						 * manager.merge(a3);
-						 */
 						sipEkle(sip, a3, Integer.valueOf(textFieldAt.getText()));
 						toplam += Integer.valueOf(textFieldAt.getText()) * a3.getFiyati();
-						// sipEkle( sip, a3);
 					}
-
 					sip.getUrun().add(a1);
 					sip.getUrun().add(a2);
 					sip.getUrun().add(a3);
 
 					sip.setMusAdi(textFieldMusteriAdi.getText());
-
 					sip.setCustomer(tut);
 					sip.setTutar(toplam);
+
 					manager.merge(sip);
-
-					Query query4 = manager.createQuery("SELECT S FROM siparis S");
-
-					List<siparis> list = (List<siparis>) query4.getResultList();
-
-					// for (siparis e :list)
-					// {
-					// System.out.println(manager.contains(e));
-					// siparis e = manager.find(siparis.class, (long)3);
-
-					// manager.remove(e);
-
-					// }
-
 					manager.getTransaction().commit();
-
+					JOptionPane.showMessageDialog(null, "Sipariþ Kaydedildi.");
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, e1);
-					//manager.getTransaction().rollback();
-
 				}
-
+				refreshTable();
 			}
+
 		});
 		btnNewButton.setBounds(35, 213, 166, 23);
 		contentPane.add(btnNewButton);
@@ -287,25 +241,14 @@ public  void refreshTable(){
 		JLabel lblAdet = new JLabel("Adet");
 		lblAdet.setBounds(104, 85, 46, 14);
 		contentPane.add(lblAdet);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(316, 45, 232, 172);
+		scrollPane.setBounds(268, 45, 280, 172);
 		contentPane.add(scrollPane);
-		
+
 		table_1 = new JTable();
 		scrollPane.setViewportView(table_1);
 		refreshTable();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
 	}
 }
